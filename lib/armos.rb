@@ -1,4 +1,6 @@
 require 'rubygems'
+require 'bundler/setup'
+
 require 'eventmachine'
 require 'redis'
 
@@ -15,7 +17,7 @@ class Armos
     @port = port 
     @host = host
     
-    @mudlib_path = "/home/byron/projects/armos/lib/mudlib/"
+    @mudlib_path = "mudlib/"
 
     ## global array of user sessions
     @sessions = Array.new

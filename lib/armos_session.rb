@@ -2,6 +2,8 @@
 # to a game object. It also keeps track of whether or not the
 # user's next message is being held for input
 require 'rubygems'
+require 'bundler/setup'
+
 require 'mixology'
 require 'eventmachine'
 
