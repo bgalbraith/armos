@@ -11,7 +11,9 @@ def parse_verb(user, verb, args)
     write("You say: #{args}", user)
   elsif verb == 'l' or verb == 'look'
     env = user.environment
-    write("#{env.short} | #{env.area}\n\n#{env.long}\n  Exits: #{env.exits.keys.join(', ')}\n", user)
+    desc = env.long
+    desc.gsub!(/(.{1,#{80}})( +|$\n?)|(.{1,#{80}})/,"\\1\\3\n")
+    write("#{env.short} | #{env.area}\n\n#{desc}\n  Exits: #{env.exits.keys.join(', ')}\n", user)
   elsif verb == 'go'
     env = user.environment
     if env.exits.key?(args)
