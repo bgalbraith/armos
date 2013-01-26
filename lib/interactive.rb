@@ -21,6 +21,13 @@ module Interactive
   def process_input(message)
     verb, str = message.split(' ', 2)
 
+    # shortcut for room exits
+    env = self.environment
+    if env.exits.key?(verb)
+      str = verb
+      verb = 'go'
+    end
+ 
     return '' if O('daemons/verbs.rb').parse_verb(self, verb, str)
     return message
   end
