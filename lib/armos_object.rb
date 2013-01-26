@@ -28,7 +28,7 @@ class ArmosObject
   def move_object(dest)
     dest = O(dest)
     return if dest == self
-    @environemnt.contents.delete(self) unless @environement.nil?
+    @environment.contents.delete(self) unless @environment.nil?
     @environment = dest
     dest.contents << self
   end

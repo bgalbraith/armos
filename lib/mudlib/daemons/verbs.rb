@@ -13,7 +13,9 @@ def parse_verb(user, verb, args)
     env = user.environment
     desc = env.long
     desc.gsub!(/(.{1,#{80}})( +|$\n?)|(.{1,#{80}})/,"\\1\\3\n")
-    write("#{env.short} | #{env.area}\n\n#{desc}\n  Exits: #{env.exits.keys.join(', ')}\n", user)
+    title = "#{env.short} | #{env.area}"
+    things = env.contents.collect {|c| c.name}
+    write("#{title}\n\n#{desc}\n#{things.join("\n")}\n\n  Exits: #{env.exits.keys.join(', ')}\n", user)
   elsif verb == 'go'
     env = user.environment
     if env.exits.key?(args)
