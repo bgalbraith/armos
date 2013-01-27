@@ -20,4 +20,5 @@ EndText
     "down"    => "realms/airship/parlor.rb",
     "sfigaro" => "realms/south_figaro/entrance.rb"
   }
+  @contents << O("realms/airship/porter.rb")
 end 

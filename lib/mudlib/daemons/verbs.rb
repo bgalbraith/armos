@@ -26,6 +26,23 @@ def parse_verb(user, verb, args)
     else
       write("You can't go that way.\n", user)
     end
+  elsif verb == 'talk'
+    env = user.environment
+    names = env.contents.collect {|c| c.name.downcase}
+    if names.include?(args)
+      npc = env.contents[names.index(args)]
+      if npc.respond_to?('dialogue')
+        if not npc.dialogue.nil?
+          write("#{npc.name} says: #{npc.dialogue['default']}\n", user)
+        else
+          write("#{npc.name} has nothing to say to you\n", user)
+        end
+      else
+        write("Nothing happens.\n", user)
+      end
+    else
+      write("Who are you talking to?\n", user)
+    end
   elsif verb == 'obs'
     write(objects.join(', ') + "\n", user)
   elsif verb == 'ls'
