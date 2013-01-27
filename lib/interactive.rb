@@ -20,9 +20,16 @@ module Interactive
 
   def process_input(message)
     verb, str = message.split(' ', 2)
+    env = self.environment
+
+    # quitting?
+    if verb == 'quit'
+      env.contents.delete(self) unless env.nil?
+      env = nil
+      return 'quit'
+    end
 
     # shortcut for room exits
-    env = self.environment
     if env.exits.key?(verb)
       str = verb
       verb = 'go'
