@@ -11,8 +11,10 @@ def parse_verb(user, verb, args)
     write("You say: #{args}", user)
   elsif verb == 'l' or verb == 'look'
     env = user.environment
-    desc = env.long
+    desc = env.long.clone
+    desc.gsub!(/\n/,"\n\n")
     desc.gsub!(/(.{1,#{80}})( +|$\n?)|(.{1,#{80}})/,"\\1\\3\n")
+    desc.chop!
     title = "#{env.short} | #{env.area}"
     things = env.contents.collect {|c| c.name}
     write("#{title}\n\n#{desc}\n#{things.join("\n")}\n\n  Exits: #{env.exits.keys.join(', ')}\n", user)
