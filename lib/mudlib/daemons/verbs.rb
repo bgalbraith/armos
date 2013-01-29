@@ -16,8 +16,14 @@ def parse_verb(user, verb, args)
     desc.gsub!(/(.{1,#{80}})( +|$\n?)|(.{1,#{80}})/,"\\1\\3\n")
     desc.chop!
     title = "#{env.short} | #{env.area}"
-    things = env.contents.collect {|c| c.name}
-    write("#{title}\n\n#{desc}\n#{things.join("\n")}\n\n  Exits: #{env.exits.keys.join(', ')}\n", user)
+    obs = env.contents.select {|c| c != user}
+    things = obs.collect {|c| c.name}
+    if things.length > 0
+      things = things.join("\n") + "\n\n"
+    else
+      things = nil
+    end
+    write("#{title}\n\n#{desc}\n#{things}  Exits: #{env.exits.keys.join(', ')}\n", user)
   elsif verb == 'go'
     env = user.environment
     if env.exits.key?(args)
