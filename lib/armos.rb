@@ -30,7 +30,7 @@ class Armos
     master  = "master.rb"
     @master = load_object(master)
 
-    @redis  = Redis.new 
+    @redis  = Redis.new
   end
 
 
@@ -56,7 +56,11 @@ class Armos
     path = @mudlib_path + str 
     ob = ArmosObject.new(self, id)
     if File.file?(path)
-      res = ob.instance_eval(File.read(path))
+      if path[-2,2] == 'rb'
+        res = ob.instance_eval(File.read(path))
+      else
+        ob.load_yaml(path)
+      end
       if res.nil?
         ob.create
       else

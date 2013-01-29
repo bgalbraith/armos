@@ -22,6 +22,6 @@ def enter_world(name)
   player.name = name
   shout("#{name} has joined the server.\n", self)
   exec(player, self)
-  player.move_object('realms/airship/deck.rb')
+  player.move_object('realms/airship/deck.yaml')
   destroy(self)
 end

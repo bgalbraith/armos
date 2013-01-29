@@ -1,0 +1,9 @@
+inherit: NPC
+create:
+  name: Porter
+  description: >
+    The porter stands smartly at attention, waiting to assist in transporting
+    traveler's luggage to and from their compartments.
+
+  dialogue:
+    default: Hello! How may I help you today?

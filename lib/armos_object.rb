@@ -8,6 +8,17 @@ class ArmosObject
     @contents    = Array.new
   end
 
+  def load_yaml(file)
+    data = YAML.load_file(file)
+    mod = data['inherit']
+    inherit(mod)
+    from_hash(data['create'])
+    if data.has_key?('contents')
+      data['contents'].each { |ob| @contents << O(ob)}
+    end
+  end
+
+
   ### Applies ###
 
   def create
