@@ -1,0 +1,18 @@
+air01:
+  name: Welcome Aboard!
+  description: >
+    You have just set foot on the famous Blackjack airship. This calls for a
+    celebration!
+  area: The Blackjack
+  level: 0
+  reward:
+    text: Gambling money
+    money: 10
+  journal:
+    - >
+      It took a lot of money and not a small amount of luck to make it onto
+      the famous airship, but you made it. You should talk to the porter to get
+      settled.
+    - >
+      The porter welcomed you aboard and handed you 10 complimentary tokens to
+      be used in the gambling parlor.

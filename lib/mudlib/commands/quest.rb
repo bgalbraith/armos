@@ -1,50 +1,34 @@
 # The quest command
 # Displays the user's quest log
 def action(user, args)
-  text = <<EndText
-////// Quests //////
-
-  ==> (100%) Port Fleeting
-
-     Lvl   Stat        Quest        ==> Booty
-    [---] (DONE)      Marooned      ==> A little pocket change to get started
-    [---] (DONE) Haunted Beginnings ==> Make some otherworldly friends
-    [---] (DONE)   Capitalism, Ho   ==> Screw the poor, we've got more!
-    [---] (DONE)  Lunar Astrolabe   ==> Moon Crystals?
-    [---] (DONE)     Vacancies      ==> Unlock a new feature
-    [001] (DONE)   Troubled Wench   ==> Marks and adventure!
-
-  ==> (  0%) Whispering Ruins
-
-     Lvl   Stat        Quest        ==> Booty
-    [001] (----)  Wayward Husband   ==> Your very own ship!
-EndText
-  log = <<EndText
-////// Haunted Beginnings //////
-
-  ==> Requirements (100%)
-
-    Quest ==> Marooned (DONE)
-
-  ==> Precis
-      Area ==> Port Fleeting     Booty ==> a purple moon crystal
-     Level ==> Any                     ==> 15 doubloons
-    Status ==> In Progress             ==> Capitalism, Ho (QUEST)
-
-    There is a strange monument in the main plaza of Port Fleeting. Given your
-    desperate situation, perhaps paying your respects to the spirits of dead
-    skyfarers may help?
-
-==> The Story So Far
-
-    While paying your respects to the monument in Port Fleeting's main plaza,
-    you met with ghosts of departed skyfarers. You came to an arrangement, and
-    promptly blacked out, waking up at the inn. After that, you were prompted
-    to try changing your partner with <<ghostswap>>.
-EndText
+  daemon = O('daemons/quests.rb')
+  text = ''
   if args.nil?
-    write("#{text}\n",user)
+    text = "////// Quests //////\n\n"
+    text += "  ==> (  0%) Airship\n\n"
+    text += "   ID     Stat   Quest\t==> Booty\n"
+
+    daemon.quests.keys.each do |id|
+      quest = daemon.quests[id]
+      text += "   [#{id}] (----) #{quest['name']}\t==>#{quest['reward']['text']}\n"
+    end
   else
-    write("#{log}\n",user)
+    quest = daemon.quests[args]
+    if quest.nil?
+      write("No quest corresponds to that ID (#{args}).\n", user)
+      return
+    end
+    text = "////// #{quest['name']} //////\n\n"
+    text += "  ==> Requirements (100%)\n\n"
+    text += "   ==> Precis\n"
+    text += "      Area ==> #{quest['area']}\tBooty ==> #{quest['reward']['money']} tokens\n"
+    text += "     Level ==> #{quest['level'] || 'Any'}\n"
+    text += "    Status ==> In Progress\n\n"
+    text += quest['description'] + "\n"
+    text += "  ==> The Story So Far\n"
+    quest['journal'].each do |j|
+      text += "\n     #{j}"
+    end
   end
+  write("#{text}\n",user)
 end
