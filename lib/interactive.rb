@@ -19,31 +19,38 @@ module Interactive
   end
 
   def process_input(message)
-    verb, args = message.split(' ', 2)
+    cmd, args = message.split(' ', 2)
     env = self.environment
 
     # quitting?
-    if verb == 'quit'
+    if cmd == 'quit'
       env.contents.delete(self) unless env.nil?
       env = nil
       return 'quit'
     end
 
     # shortcut for room exits
-    if env.exits.key?(verb)
-      args = verb
-      verb = 'go'
+    if env.exits.key?(cmd)
+      args = cmd
+      cmd = 'go'
     end
 
     # is it a known verb
-    verb = 'look' if verb == 'l'
-    cmd = O("verbs/#{verb}.rb")
-    if not cmd.nil?
-      cmd.action(self, args)
+    cmd = 'look' if cmd == 'l'
+    verb = O("verbs/#{cmd}.rb")
+    if not verb.nil?
+      verb.action(self, args)
       return ''
     end
 
-    return '' if O('daemons/verbs.rb').parse_verb(self, verb, args)
+    # is it a known command
+    command = O("commands/#{cmd}.rb")
+    if not command.nil?
+      command.action(self, args)
+      return ''
+    end
+
+    return '' if O('daemons/verbs.rb').parse_verb(self, cmd, args)
     return message
   end
 

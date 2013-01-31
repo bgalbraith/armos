@@ -3,7 +3,7 @@ GEM
   specs:
     eventmachine (0.12.10)
     mixology (0.2.0)
-    redis (2.2.0)
+    redis (2.2.2)
 
 PLATFORMS
   ruby
