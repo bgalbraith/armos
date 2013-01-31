@@ -67,7 +67,7 @@ class Armos
         return res  
       end
     else
-      #ob = @master.compile_object(str)
+      return nil
     end
     @objects[id] = ob
   end
